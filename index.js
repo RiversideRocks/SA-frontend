@@ -7,11 +7,11 @@ js-SHA256
 
 */
 
-
-$.get("https://checkip.amazonaws.com/", function(data, status){
+function send(){
+$.get("https://ipapi.co/ip/", function(data, status){
     console.log("Status: Was IP address collection ok? "+status)
     var hash = sha256(data)
-    $.get(`https://ipapi.co/${data}country/`, function(data, status){
+    $.get(`https://ipapi.co/${data}/country/`, function(data, status){
         console.log("Status: Was country collection ok? "+status)
         var country = data
         var ogdate = new Date().valueOf();
@@ -20,3 +20,5 @@ $.get("https://checkip.amazonaws.com/", function(data, status){
         $.post("https://riverside.rocks/apis/inbound.php?d="+window.location.hostname, {epoch: epoch, country: country, token: hash});
     })
 })
+}
+var interval = setInterval(send, 5000); 
